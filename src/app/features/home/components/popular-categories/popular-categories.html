@@ -1,0 +1,33 @@
+<section class="popular-categories py-5">
+  <div class="container">
+    <header class="section-header d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h2 class="section-title">Popular Categories</h2>
+        <p class="section-subtitle mb-0">Browse the categories our shoppers visit most.</p>
+      </div>
+      <a class="view-all" routerLink="/categories">
+        View all <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
+    </header>
+
+    @if (categories$ | async; as categories) {
+      <div class="row g-4">
+        @for (category of categories; track category.id) {
+          <div class="col-6 col-md-4 col-lg-2">
+            <a
+              class="category-card"
+              routerLink="/products"
+              [queryParams]="{ category: category.name }"
+            >
+              <img [src]="category.image" [alt]="category.name" loading="lazy" />
+              <div class="category-body">
+                <h3>{{ category.name }}</h3>
+                <span>{{ category.productCount }} products</span>
+              </div>
+            </a>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>

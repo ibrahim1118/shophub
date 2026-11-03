@@ -1,0 +1,35 @@
+<section class="new-arrivals py-5">
+  <div class="container">
+    <header class="section-header d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h2 class="section-title">New Arrivals</h2>
+        <p class="section-subtitle mb-0">Fresh picks just added to the store.</p>
+      </div>
+      <a class="view-all" routerLink="/products">
+        View all <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
+    </header>
+
+    @if (newArrivals$ | async; as products) {
+      <div class="row g-4">
+        @for (product of products; track product.id) {
+          <div class="col-6 col-lg-3">
+            <article class="product-card">
+              <a class="product-image" routerLink="/products">
+                <img [src]="product.image" [alt]="product.name" loading="lazy" />
+                <span class="new-badge">New</span>
+              </a>
+              <div class="product-body">
+                <span class="product-category">{{ product.category }}</span>
+                <h3 class="product-name">
+                  <a routerLink="/products">{{ product.name }}</a>
+                </h3>
+                <span class="product-price">{{ product.price | currency }}</span>
+              </div>
+            </article>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
