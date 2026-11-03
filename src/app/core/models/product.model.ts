@@ -1,10 +1,20 @@
 export interface Product {
   id: number;
-  name: string;
+  title: string;
   description: string;
   price: number;
-  image: string;
-  category: string;
+  discountPercentage: number;
   rating: number;
-  inStock: boolean;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+}
+
+export interface ProductsResponse {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
 }
