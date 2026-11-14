@@ -1,0 +1,72 @@
+
+<div>
+
+  <h3 class="mb-4">Dashboard Overview</h3>
+
+  @if (isLoading) {
+
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+  } @else if (errorMessage) {
+
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+  } @else {
+
+    <div class="row g-4">
+
+      <!-- Total Products -->
+      <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="fa-solid fa-box fa-2x text-primary"></i>
+            <h6 class="text-muted mt-3">Total Products</h6>
+            <h3>{{ totalProducts }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="fa-solid fa-tags fa-2x text-success"></i>
+            <h6 class="text-muted mt-3">Categories</h6>
+            <h3>{{ totalCategories }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Low Stock -->
+      <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="fa-solid fa-triangle-exclamation
+                      fa-2x text-warning"></i>
+            <h6 class="text-muted mt-3">Low Stock</h6>
+            <h3>{{ lowStockProducts }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Average Price -->
+      <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card">
+          <div class="card-body">
+            <i class="fa-solid fa-dollar-sign
+                      fa-2x text-info"></i>
+            <h6 class="text-muted mt-3">Average Price</h6>
+            <h3>{{ averagePrice | currency }}</h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  }
+
+</div>

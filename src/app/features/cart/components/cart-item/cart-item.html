@@ -1,0 +1,88 @@
+<div class="card border-0 shadow-sm mb-3">
+
+  <div class="card-body">
+
+    <div class="row align-items-center g-3">
+
+      <!-- Product image -->
+      <div class="col-4 col-md-2">
+
+        <img
+          [src]="item.product.thumbnail"
+          [alt]="item.product.title"
+          class="product-image">
+
+      </div>
+
+      <!-- Product information -->
+      <div class="col-8 col-md-4">
+
+        <h6 class="fw-bold">
+          {{ item.product.title }}
+        </h6>
+
+        <p class="text-muted mb-1">
+          {{ item.product.price | currency }}
+        </p>
+
+        <button
+          class="btn btn-sm btn-link text-danger p-0"
+          (click)="remove()">
+
+          <i class="fa-solid fa-trash me-1"></i>
+          Remove
+
+        </button>
+
+      </div>
+
+      <!-- Quantity controls -->
+      <div class="col-6 col-md-3">
+
+        <div class="d-flex align-items-center gap-2">
+
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            [disabled]="item.quantity <= 1"
+            (click)="decrease()">
+
+            <i class="fa-solid fa-minus"></i>
+
+          </button>
+
+          <span class="fw-bold">
+            {{ item.quantity }}
+          </span>
+
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            (click)="increase()">
+
+            <i class="fa-solid fa-plus"></i>
+
+          </button>
+          <a routerLink="/checkout"
+   class="btn btn-primary w-100">
+  Proceed to Checkout
+</a>
+
+        </div>
+
+      </div>
+
+      <!-- Item subtotal -->
+      <div class="col-6 col-md-3 text-end">
+
+        <h6 class="fw-bold text-primary">
+
+          {{ item.product.price * item.quantity | currency }}
+
+        </h6>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

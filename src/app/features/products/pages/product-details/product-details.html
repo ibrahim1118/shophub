@@ -1,0 +1,82 @@
+<div class="container my-5">
+
+  @if (loading) {
+    <div class="text-center">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (product; as p) {
+
+    <div class="row g-5">
+
+      <!-- Product Image -->
+      <div class="col-md-6">
+
+        <img
+          [src]="p.thumbnail"
+          [alt]="p.title"
+          class="img-fluid product-details-image">
+
+      </div>
+
+      <!-- Product Information -->
+      <div class="col-md-6">
+
+        <h2>{{ p.title }}</h2>
+
+        <p class="text-muted">
+          {{ p.brand }} | {{ p.category }}
+        </p>
+
+        <h3 class="text-primary">
+          {{ p.price | currency }}
+        </h3>
+
+        <p>⭐ {{ p.rating }} / 5</p>
+
+        <p>{{ p.description }}</p>
+
+        <p>
+          Available stock: {{ p.stock }}
+        </p>
+
+       <button
+  class="btn btn-primary btn-lg"
+  (click)="addToCart()">
+
+  <i class="fa-solid fa-cart-plus me-2"></i>
+  Add to Cart
+
+</button>
+@if (wishlistIds$ | async; as wishlistIds) {
+
+  <button
+    class="btn btn-outline-danger"
+    (click)="toggleWishlist()">
+
+    @if (wishlistIds.has(p.id)) {
+      <i class="fa-solid fa-heart me-2"></i>
+      Remove from Wishlist
+    } @else {
+      <i class="fa-regular fa-heart me-2"></i>
+      Add to Wishlist
+    }
+
+  </button>
+
+}
+      </div>
+
+
+    </div>
+
+  }
+
+</div>

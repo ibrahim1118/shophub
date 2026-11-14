@@ -1,5 +1,8 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+
 import { NewArrivals } from './new-arrivals';
 
 describe('NewArrivals', () => {
@@ -9,7 +12,7 @@ describe('NewArrivals', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NewArrivals],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NewArrivals);

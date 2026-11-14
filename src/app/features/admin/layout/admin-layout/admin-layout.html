@@ -1,0 +1,58 @@
+
+<div class="admin-container">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+
+    <h4 class="mb-4">
+      <i class="fa-solid fa-store me-2"></i>
+      ShopHub Admin
+    </h4>
+
+    <nav class="nav flex-column">
+
+      <a routerLink="/admin/dashboard"
+         routerLinkActive="active"
+         class="nav-link">
+        <i class="fa-solid fa-chart-line me-2"></i>
+        Dashboard
+      </a>
+
+      <a routerLink="/admin/products"
+         routerLinkActive="active"
+         class="nav-link">
+        <i class="fa-solid fa-box me-2"></i>
+        Products
+      </a>
+
+      <a routerLink="/admin/products/add"
+         routerLinkActive="active"
+         class="nav-link">
+        <i class="fa-solid fa-plus me-2"></i>
+        Add Product
+      </a>
+
+      <hr>
+
+      <a routerLink="/"
+         class="nav-link">
+        <i class="fa-solid fa-house me-2"></i>
+        Back to Store
+      </a>
+
+    </nav>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-content">
+
+    <div class="admin-header mb-4">
+      <h5>Administration Panel</h5>
+    </div>
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>

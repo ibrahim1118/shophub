@@ -1,100 +1,182 @@
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/" (click)="closeMenu()">
-      <i class="fa-solid fa-bag-shopping brand-icon" aria-hidden="true"></i>
-      <span>ShopHub</span>
-    </a>
+<header class="site-header">
+  <div class="header-accent" aria-hidden="true"></div>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)="toggleMenu()"
-      [attr.aria-expanded]="isMenuOpen()"
-      aria-controls="navbar-main"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <nav class="navbar navbar-expand-xl" aria-label="Main navigation">
+    <div class="container header-inner">
+      <a class="navbar-brand" routerLink="/" (click)="closeMenu()" aria-label="ShopHub home">
+        <span class="brand-mark" aria-hidden="true">
+          <i class="fa-solid fa-bag-shopping"></i>
+        </span>
+        <span class="brand-text">Shop<span class="brand-accent">Hub</span></span>
+      </a>
 
-    <div
-      class="navbar-collapse collapse"
-      [class.show]="isMenuOpen()"
-      id="navbar-main"
-    >
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/"
-            [routerLinkActiveOptions]="{ exact: true }"
-            routerLinkActive="active"
-            (click)="closeMenu()"
-            >Home</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/products"
-            routerLinkActive="active"
-            (click)="closeMenu()"
-            >Products</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/categories"
-            routerLinkActive="active"
-            (click)="closeMenu()"
-            >Categories</a
-          >
-        </li>
-      </ul>
+      <button
+        class="menu-toggle"
+        type="button"
+        [class.is-open]="isMenuOpen()"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen()"
+        [attr.aria-label]="isMenuOpen() ? 'Close navigation' : 'Open navigation'"
+        aria-controls="navbar-main"
+      >
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </button>
 
-      <form class="search-form" role="search" (ngSubmit)="onSearch()">
-        <div class="input-group">
-          <input
-            class="form-control"
-            type="search"
-            name="search"
-            placeholder="Search products..."
-            aria-label="Search products"
-            [ngModel]="searchQuery()"
-            (ngModelChange)="searchQuery.set($event)"
-          />
-          <button class="btn btn-search" type="submit" aria-label="Search">
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          </button>
+      <div
+        class="navbar-collapse collapse"
+        [class.show]="isMenuOpen()"
+        id="navbar-main"
+      >
+        <ul class="navbar-nav primary-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/"
+              [routerLinkActiveOptions]="{ exact: true }"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+            >
+              <i class="fa-solid fa-house nav-icon" aria-hidden="true"></i>
+              Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/products"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+            >
+              <i class="fa-solid fa-box-open nav-icon" aria-hidden="true"></i>
+              Products
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/categories"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+            >
+              <i class="fa-solid fa-layer-group nav-icon" aria-hidden="true"></i>
+              Categories
+            </a>
+          </li>
+        </ul>
+
+        <form class="search-form" role="search" (ngSubmit)="onSearch()">
+          <div class="search-shell">
+            <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+            <input
+              class="search-input"
+              type="search"
+              name="search"
+              placeholder="Search products, brands and more..."
+              aria-label="Search products"
+              autocomplete="off"
+              [ngModel]="searchQuery()"
+              (ngModelChange)="searchQuery.set($event)"
+            />
+            <button class="search-submit" type="submit" aria-label="Search">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </form>
+
+        <div class="nav-actions">
+          <div class="action-icons">
+            <a
+              routerLink="/wishlist"
+              class="action-btn"
+              aria-label="Wishlist"
+              title="Wishlist"
+              (click)="closeMenu()"
+            >
+              <i class="fa-regular fa-heart" aria-hidden="true"></i>
+              @if (wishlistCount$ | async; as count) {
+                @if (count > 0) {
+                  <span class="badge-count wishlist-badge">{{ count }}</span>
+                }
+              }
+            </a>
+
+            <a
+              routerLink="/cart"
+              class="action-btn"
+              aria-label="Cart"
+              title="Cart"
+              (click)="closeMenu()"
+            >
+              <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+              <span class="badge-count cart-badge">{{ cartCount$ | async }}</span>
+            </a>
+          </div>
+
+          @if (currentUser$ | async; as user) {
+            <div class="user-menu" (click)="$event.stopPropagation()">
+              <button
+                class="user-toggle"
+                type="button"
+                (click)="toggleUserMenu()"
+                [attr.aria-expanded]="isUserMenuOpen()"
+                aria-haspopup="true"
+                aria-controls="user-menu-panel"
+              >
+                <span class="avatar" aria-hidden="true">
+                  {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+                </span>
+                <span class="user-name">{{ user.firstName }}</span>
+                <i class="fa-solid fa-chevron-down user-chevron" aria-hidden="true"></i>
+              </button>
+
+              @if (isUserMenuOpen()) {
+                <div class="user-menu-panel" id="user-menu-panel" role="menu">
+                  <div class="user-menu-header">
+                    <span class="avatar avatar-lg" aria-hidden="true">
+                      {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+                    </span>
+                    <div class="user-meta">
+                      <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+                      <span>{{ user.email }}</span>
+                    </div>
+                  </div>
+
+                  <div class="user-menu-links">
+                    <a routerLink="/profile" role="menuitem" (click)="closeUserMenu()">
+                      <i class="fa-regular fa-user" aria-hidden="true"></i>
+                      My Profile
+                    </a>
+                    <a routerLink="/orders" role="menuitem" (click)="closeUserMenu()">
+                      <i class="fa-solid fa-box" aria-hidden="true"></i>
+                      My Orders
+                    </a>
+                    @if (user.role === 'admin') {
+                      <a routerLink="/admin" role="menuitem" (click)="closeUserMenu()">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                        Admin Dashboard
+                      </a>
+                    }
+                  </div>
+
+                  <div class="user-menu-footer">
+                    <button class="logout-btn" type="button" role="menuitem" (click)="logout()">
+                      <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="auth-actions">
+              <a routerLink="/login" class="auth-link" (click)="closeMenu()">Login</a>
+              <a routerLink="/register" class="register-btn" (click)="closeMenu()">Register</a>
+            </div>
+          }
         </div>
-      </form>
-
-      <div class="nav-actions">
-        <a class="nav-link" routerLink="/login" (click)="closeMenu()">Login</a>
-        <a class="nav-link" routerLink="/register" (click)="closeMenu()"
-          >Register</a
-        >
-
-        <a
-          class="nav-link icon-link"
-          routerLink="/cart"
-          aria-label="Cart"
-          (click)="closeMenu()"
-        >
-          <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-          <span class="badge-count">{{ cartCount() }}</span>
-        </a>
-
-        <a
-          class="nav-link icon-link"
-          routerLink="/wishlist"
-          aria-label="Wishlist"
-          (click)="closeMenu()"
-        >
-          <i class="fa-solid fa-heart" aria-hidden="true"></i>
-        </a>
       </div>
     </div>
-  </div>
-</nav>
-
+  </nav>
+</header>

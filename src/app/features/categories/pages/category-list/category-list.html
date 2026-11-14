@@ -1,0 +1,65 @@
+<div class="container py-5">
+
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">Shop by Category</h2>
+    <p class="text-muted">
+      Explore our products by category
+    </p>
+  </div>
+
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2">Loading categories...</p>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+
+      <button class="btn btn-outline-danger ms-3"
+              (click)="loadCategories()">
+        Try Again
+      </button>
+    </div>
+  }
+
+  @if (!loading && !errorMessage) {
+    <div class="row g-4">
+
+      @for (category of categories; track category.slug) {
+        <div class="col-6 col-md-4 col-lg-3">
+
+          <a
+            [routerLink]="['/categories', category.slug]"
+            class="category-card text-decoration-none">
+
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body text-center py-4">
+
+                <div class="category-icon mb-3">
+                  <i class="fa-solid fa-layer-group"></i>
+                </div>
+
+                <h5 class="fw-bold text-dark">
+                  {{ category.name }}
+                </h5>
+
+                <span class="text-primary">
+                  Explore Products
+                  <i class="fa-solid fa-arrow-right ms-1"></i>
+                </span>
+
+              </div>
+            </div>
+
+          </a>
+
+        </div>
+      }
+
+    </div>
+  }
+
+</div>

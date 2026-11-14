@@ -1,0 +1,23 @@
+.category-card {
+  display: block;
+  height: 100%;
+  transition: transform 0.2s ease;
+
+  .card {
+    border-radius: 12px;
+    transition: box-shadow 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+
+    .card {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+    }
+  }
+}
+
+.category-icon {
+  font-size: 35px;
+  color: #0d6efd;
+}

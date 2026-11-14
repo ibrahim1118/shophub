@@ -1,0 +1,22 @@
+<div class="container py-5">
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+    <h2 class="fw-bold mb-0">Admin Dashboard</h2>
+    <span class="badge text-bg-dark">Admin only</span>
+  </div>
+
+  <p class="text-muted mb-4">
+    This route is protected by <code>adminGuard</code>, which verifies the signed-in user has the
+    <code>admin</code> role before the page is allowed to load.
+  </p>
+
+  @if (currentUser$ | async; as user) {
+    <div class="card shadow-sm border-0 p-4">
+      <h3 class="h5 fw-bold mb-3">Signed in as</h3>
+
+      <p class="mb-1"><strong>Name:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+      <p class="mb-1"><strong>Username:</strong> {{ user.username }}</p>
+      <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+      <p class="mb-0"><strong>Role:</strong> {{ user.role }}</p>
+    </div>
+  }
+</div>

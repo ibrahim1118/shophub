@@ -1,0 +1,175 @@
+<div class="container my-5">
+
+  <h2 class="mb-4">Our Products</h2>
+
+  <!-- Search -->
+  <div class="row mb-4 g-3">
+
+    <div class="col-md-5">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search products..."
+        [(ngModel)]="searchText"
+        (keyup.enter)="search()">
+    </div>
+
+    <div class="col-md-2">
+      <button
+        class="btn btn-primary w-100"
+        (click)="search()">
+        Search
+      </button>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="col-md-3">
+      <select
+        class="form-select"
+        [(ngModel)]="selectedCategory"
+        (change)="filterByCategory()">
+
+        <option value="">All Categories</option>
+
+        @for (category of categories; track category.slug) {
+          <option [value]="category.slug">
+            {{ category.name }}
+          </option>
+        }
+
+      </select>
+    </div>
+
+    <!-- Sorting -->
+    <div class="col-md-2">
+      <select
+        class="form-select"
+        [(ngModel)]="sortOrder"
+        (change)="sort()">
+
+        <option value="">Default</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating-desc">Top Rated</option>
+
+      </select>
+    </div>
+
+  </div>
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="text-center my-5">
+      <div class="spinner-border text-primary"></div>
+      <p>Loading products...</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (errorMessage) {
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <!-- Products -->
+  @if (!loading && !errorMessage) {
+
+    <div class="row g-4">
+
+      @for (product of products; track product.id) {
+
+        <div class="col-6 col-md-4 col-lg-3">
+
+          <div class="card h-100">
+
+            <img
+              [src]="product.thumbnail"
+              [alt]="product.title"
+              class="card-img-top product-image">
+
+            <div class="card-body">
+
+              <h6>{{ product.title }}</h6>
+
+              <p class="text-muted">
+                {{ product.price | currency }}
+              </p>
+
+              <p>⭐ {{ product.rating }}</p>
+
+              <a
+                [routerLink]="['/products', product.id]"
+                class="btn btn-outline-primary w-100">
+                View Details
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      } @empty {
+        <div class="col-12 text-center">
+          <h5>No products found.</h5>
+        </div>
+      }
+
+    </div>
+
+  }
+
+  <!-- Pagination -->
+  @if (!loading && totalPages > 1) {
+
+    <nav class="mt-5">
+
+      <ul class="pagination justify-content-center">
+
+        <li class="page-item"
+            [class.disabled]="currentPage === 1">
+
+          <button
+            class="page-link"
+            (click)="changePage(currentPage - 1)">
+            Previous
+          </button>
+
+        </li>
+
+        @for (page of [].constructor(totalPages); track $index) {
+
+          <li
+            class="page-item"
+            [class.active]="currentPage === $index + 1">
+
+            <button
+              class="page-link"
+              (click)="changePage($index + 1)">
+              {{ $index + 1 }}
+            </button>
+
+          </li>
+
+        }
+
+        <li
+          class="page-item"
+          [class.disabled]="currentPage === totalPages">
+
+          <button
+            class="page-link"
+            (click)="changePage(currentPage + 1)">
+            Next
+          </button>
+
+        </li>
+
+      </ul>
+
+    </nav>
+
+  }
+
+</div>

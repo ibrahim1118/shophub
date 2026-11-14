@@ -1,0 +1,327 @@
+
+<div class="container py-5">
+
+  @if (isLoading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2">Loading profile...</p>
+    </div>
+  } @else if (errorMessage && !user) {
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  } @else if (user) {
+
+    <h2 class="mb-4">My Profile</h2>
+
+    @if (successMessage) {
+      <div class="alert alert-success">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Profile Information -->
+    <div class="card shadow-sm mb-4">
+
+      <div class="card-body p-4">
+
+        <div class="d-flex flex-column flex-md-row
+                    align-items-center gap-4">
+
+          <img
+            [src]="user.image || 'assets/default-avatar.png'"
+            alt="Profile picture"
+            class="profile-image">
+
+          <div class="flex-grow-1 text-center text-md-start">
+
+            <h3>
+              {{ user.firstName }} {{ user.lastName }}
+            </h3>
+
+            <p class="text-muted mb-1">
+              {{ user.email }}
+            </p>
+
+            <p class="text-muted mb-0">
+              Username: {{ user.username }}
+            </p>
+
+          </div>
+
+          @if (!isEditing) {
+            <button
+              class="btn btn-primary"
+              (click)="enableEdit()">
+
+              <i class="fa-solid fa-pen me-2"></i>
+              Edit Profile
+
+            </button>
+          }
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div class="card shadow-sm mb-4">
+
+      <div class="card-body p-4">
+
+        <h4 class="mb-4">Personal Information</h4>
+
+        <form [formGroup]="profileForm"
+              (ngSubmit)="saveProfile()">
+
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label">First Name</label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="firstName"
+                [readonly]="!isEditing">
+
+              @if (f.firstName.touched && f.firstName.invalid) {
+                <small class="text-danger">
+                  Enter at least 2 characters.
+                </small>
+              }
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Last Name</label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="lastName"
+                [readonly]="!isEditing">
+
+              @if (f.lastName.touched && f.lastName.invalid) {
+                <small class="text-danger">
+                  Enter at least 2 characters.
+                </small>
+              }
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+                [readonly]="!isEditing">
+
+              @if (f.email.touched && f.email.invalid) {
+                <small class="text-danger">
+                  Enter a valid email.
+                </small>
+              }
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Phone</label>
+
+              <input
+                type="tel"
+                class="form-control"
+                formControlName="phone"
+                [readonly]="!isEditing">
+
+              @if (f.phone.touched && f.phone.invalid) {
+                <small class="text-danger">
+                  Enter a valid Egyptian mobile number.
+                </small>
+              }
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">
+                Profile Picture URL
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="image"
+                [readonly]="!isEditing"
+                placeholder="https://example.com/image.jpg">
+            </div>
+
+            <!-- Address -->
+            <div class="col-12 mt-4">
+              <h5>Address Information</h5>
+            </div>
+
+            <div formGroupName="address" class="row g-3">
+
+              <div class="col-md-6">
+                <label class="form-label">Street Address</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="address"
+                  [readonly]="!isEditing">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">City</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="city"
+                  [readonly]="!isEditing">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">State</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="state"
+                  [readonly]="!isEditing">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Postal Code</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="postalCode"
+                  [readonly]="!isEditing">
+              </div>
+
+            </div>
+
+          </div>
+
+          @if (isEditing) {
+
+            <div class="d-flex gap-2 mt-4">
+
+              <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="isSaving">
+
+                @if (isSaving) {
+                  Saving...
+                } @else {
+                  Save Changes
+                }
+
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="cancelEdit()"
+                [disabled]="isSaving">
+
+                Cancel
+
+              </button>
+
+            </div>
+
+          }
+
+        </form>
+
+      </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="card shadow-sm">
+
+      <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between
+                    align-items-center mb-4">
+
+          <h4 class="mb-0">Recent Orders</h4>
+
+          <a routerLink="/orders"
+             class="btn btn-outline-primary btn-sm">
+            View All
+          </a>
+
+        </div>
+
+        @if (orders.length > 0) {
+
+          @for (order of orders.slice(0, 3); track order.id) {
+
+            <div class="d-flex flex-wrap justify-content-between
+                        align-items-center gap-3 border-bottom py-3">
+
+              <div>
+                <h6 class="mb-1">{{ order.id }}</h6>
+
+                <small class="text-muted">
+                  {{ order.createdAt | date:'mediumDate' }}
+                </small>
+              </div>
+
+              <div>
+                <strong>{{ order.total | currency }}</strong>
+              </div>
+
+              <div>
+                <span class="badge bg-secondary">
+                  {{ order.status }}
+                </span>
+              </div>
+
+              <a
+                [routerLink]="['/orders', order.id]"
+                class="btn btn-sm btn-outline-primary">
+                Details
+              </a>
+
+            </div>
+
+          }
+
+        } @else {
+
+          <div class="text-center py-4">
+            <i class="fa-solid fa-box-open fa-3x
+                      text-muted mb-3"></i>
+
+            <h5>No Orders Yet</h5>
+
+            <p class="text-muted">
+              Your previous orders will appear here.
+            </p>
+
+            <a routerLink="/products"
+               class="btn btn-primary">
+              Start Shopping
+            </a>
+          </div>
+
+        }
+
+      </div>
+    </div>
+
+  }
+
+</div>

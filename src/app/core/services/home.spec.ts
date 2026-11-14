@@ -1,20 +1,20 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { firstValueFrom } from 'rxjs';
+
 import { HomeService } from './home.service';
 
 describe('HomeService', () => {
   let service: HomeService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
     service = TestBed.inject(HomeService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
- 
-
- 
 });

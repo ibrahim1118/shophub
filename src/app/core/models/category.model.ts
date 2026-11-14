@@ -3,3 +3,7 @@ export interface Category {
   name: string;
   url: string;
 }
+
+export interface CategoriesResponse {
+  categories: Category[];
+}
